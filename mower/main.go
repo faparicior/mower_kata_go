@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	var position, _ = XPosition.Build(15)
+	var position, _ = valueobject.BuildXPosition(15)
 
 	fmt.Print(position.Value())
 }

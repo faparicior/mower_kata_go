@@ -1,4 +1,4 @@
-package XPosition
+package valueobject
 
 import (
 	"example.kata.local/mower/mowers/exceptions"
@@ -9,7 +9,7 @@ type XPosition struct {
 	value int
 }
 
-func Build(value int) (xPosition XPosition, err error) {
+func BuildXPosition(value int) (xPosition XPosition, err error) {
 	if 0 > value {
 		return XPosition{value: value}, exceptions.BuildInvalidMowerPosition()
 	}

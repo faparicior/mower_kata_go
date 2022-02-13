@@ -1,4 +1,4 @@
-package mower
+package valueobject
 
 import (
 	"encoding/json"
@@ -6,14 +6,13 @@ import (
 	"reflect"
 	"testing"
 
-	"example.kata.local/mower/mowers/valueobject"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestShouldBeBuild(t *testing.T) {
-	var xPosition, err = XPosition.Build(15)
+func TestXPositionShouldBeBuild(t *testing.T) {
+	var xPosition, err = BuildXPosition(15)
 
-	if reflect.TypeOf(xPosition).String() != "XPosition.XPosition" {
+	if reflect.TypeOf(xPosition).String() != "valueobject.XPosition" {
 		t.Fatal(reflect.TypeOf(xPosition))
 	}
 
@@ -26,7 +25,7 @@ func TestShouldBeBuild(t *testing.T) {
 }
 
 func TestShouldThrownExceptionForNegativeValues(t *testing.T) {
-	var xPosition, err = XPosition.Build(-1)
+	var xPosition, err = BuildXPosition(-1)
 
 	assert.Equal(t, -1, xPosition.Value())
 	assert.Error(t, err)
@@ -48,7 +47,7 @@ func TestShouldThrownExceptionForNegativeValues(t *testing.T) {
 }
 
 func TestShouldSumAStepForward(t *testing.T) {
-	var xPosition, _ = XPosition.Build(15)
+	var xPosition, _ = BuildXPosition(15)
 
 	xPosition, _ = xPosition.MoveForward(1)
 
