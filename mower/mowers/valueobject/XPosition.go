@@ -1,26 +1,28 @@
 package XPosition
 
-import "errors"
+import (
+	"example.kata.local/mower/mowers/exceptions"
+)
 
-type Instance struct {
+type XPosition struct {
 	// explicitly not public field
 	value int
 }
 
-func Build(value int) (this Instance, err error) {
+func Build(value int) (xPosition XPosition, err error) {
 	if 0 > value {
-		return Instance{value: value}, errors.New("negative position")
+		return XPosition{value: value}, exceptions.BuildInvalidMowerPosition()
 	}
 
-	return Instance{value: value}, nil
+	return XPosition{value: value}, nil
 }
 
-func (instance Instance) Value() int {
-	return instance.value
+func (xPosition XPosition) Value() int {
+	return xPosition.value
 }
 
-func (instance Instance) MoveForward(step int) (this Instance, err error) {
-	var newPosition = instance.value + step
+func (xPosition XPosition) MoveForward(step int) (this XPosition, err error) {
+	var newPosition = xPosition.value + step
 
-	return Instance{value: newPosition}, nil
+	return XPosition{value: newPosition}, nil
 }

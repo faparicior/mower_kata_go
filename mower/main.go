@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	var culo XPosition.Instance = XPosition.Build(15)
+	var position, _ = XPosition.Build(15)
 
-	fmt.Print(culo.Value())
+	fmt.Print(position.Value())
 }
