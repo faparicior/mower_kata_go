@@ -1,16 +1,15 @@
 package valueobject
 
 import (
+	"example.kata.local/mower/mowers/exceptions"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 )
 
-const orientation = "N"
-const invalidOrientation = "J"
-
 func TestMowerOrientationShouldBeBuild(t *testing.T) {
+	const orientation = "N"
 
 	var mowerOrientation, err = BuildMowerOrientation(orientation)
 
@@ -44,9 +43,13 @@ func TestMowerOrientationShouldBeBuildWithValidParameters(t *testing.T) {
 }
 
 func TestShouldFailForInvalidOrientation(t *testing.T) {
+	const invalidOrientation = "J"
+
 	mowerOrientation, err := BuildMowerOrientation(invalidOrientation)
 
-	// TODO: Has to return specific error
+	expectedError := exceptions.BuildInvalidMowerOrientation()
+
 	assert.Equal(t, MowerOrientation{}, mowerOrientation)
 	assert.NotNil(t, err)
+	assert.Equal(t, expectedError, err)
 }
