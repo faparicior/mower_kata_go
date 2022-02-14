@@ -1,22 +1,27 @@
 package valueobject
 
 import (
-	"encoding/json"
-	"example.kata.local/mower/shared/domain/exceptions"
+	"example.kata.local/mower/mowers/exceptions"
 	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+const mowerPosition = 15
+const invalidMowerPosition = -1
+
+const position = 15
+const step = 1
+
 func TestXPositionShouldBeBuild(t *testing.T) {
-	var xPosition, err = BuildXPosition(15)
+	var xPosition, err = BuildXPosition(mowerPosition)
 
 	if reflect.TypeOf(xPosition).String() != "valueobject.XPosition" {
 		t.Fatal(reflect.TypeOf(xPosition))
 	}
 
-	assert.Equal(t, 15, xPosition.Value())
+	assert.Equal(t, mowerPosition, xPosition.Value())
 	//if xPosition.Value() != 15 {
 	//	t.Fatal("error")
 	//}
@@ -24,32 +29,19 @@ func TestXPositionShouldBeBuild(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestShouldThrownExceptionForNegativeValues(t *testing.T) {
-	var xPosition, err = BuildXPosition(-1)
+func TestXPositionShouldThrownExceptionForNegativeValues(t *testing.T) {
+	var xPosition, err = BuildXPosition(invalidMowerPosition)
+	var expectedError = exceptions.BuildInvalidMowerPosition()
 
-	assert.Equal(t, -1, xPosition.Value())
+	assert.Equal(t, XPosition{}, xPosition)
 	assert.Error(t, err)
-	//var dat map[string]interface{}
-
-	var dat exceptions.Error
-	var expected = exceptions.Error{
-		Description:  "negative position",
-		ErrorType:    "domain",
-		ErrorSubtype: "InvalidMowerPosition",
-	}
-
-	err = json.Unmarshal([]byte(err.Error()), &dat)
-	if err != nil {
-		return
-	}
-
-	assert.EqualValues(t, dat, expected)
+	assert.EqualValues(t, expectedError, err)
 }
 
-func TestShouldSumAStepForward(t *testing.T) {
-	var xPosition, _ = BuildXPosition(15)
+func TestXPositionShouldSumAStepForward(t *testing.T) {
+	var xPosition, _ = BuildXPosition(position)
 
-	xPosition, _ = xPosition.MoveForward(1)
+	xPosition, _ = xPosition.MoveForward(step)
 
-	assert.Equal(t, 16, xPosition.Value())
+	assert.Equal(t, position+step, xPosition.Value())
 }

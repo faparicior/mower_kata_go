@@ -11,7 +11,7 @@ type XPosition struct {
 
 func BuildXPosition(value int) (xPosition XPosition, err error) {
 	if 0 > value {
-		return XPosition{value: value}, exceptions.BuildInvalidMowerPosition()
+		return XPosition{}, exceptions.BuildInvalidMowerPosition()
 	}
 
 	return XPosition{value: value}, nil
