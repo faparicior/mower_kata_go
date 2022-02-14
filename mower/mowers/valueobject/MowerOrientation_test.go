@@ -44,7 +44,9 @@ func TestMowerOrientationShouldBeBuildWithValidParameters(t *testing.T) {
 }
 
 func TestShouldFailForInvalidOrientation(t *testing.T) {
-	var _, err = BuildMowerOrientation(invalidOrientation)
+	mowerOrientation, err := BuildMowerOrientation(invalidOrientation)
 
+	// TODO: Has to return specific error
+	assert.Equal(t, MowerOrientation{}, mowerOrientation)
 	assert.NotNil(t, err)
 }

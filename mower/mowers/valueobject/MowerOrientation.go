@@ -3,25 +3,22 @@ package valueobject
 import "errors"
 
 type MowerOrientation struct {
-	orientation string
-}
-
-var validOrientations = []MowerOrientation{
-	{"N"},
-	{"S"},
-	{"E"},
-	{"W"},
+	value string
 }
 
 func BuildMowerOrientation(value string) (MowerOrientation, error) {
-
-	var mowerOrientation = MowerOrientation{orientation: value}
+	var validOrientations = []MowerOrientation{
+		{"N"},
+		{"S"},
+		{"E"},
+		{"W"},
+	}
 
 	for _, validValues := range validOrientations {
-		if validValues.orientation == value {
-			return mowerOrientation, nil
+		if validValues.value == value {
+			return MowerOrientation{value: value}, nil
 		}
 	}
 
-	return mowerOrientation, errors.New("error")
+	return MowerOrientation{}, errors.New("error")
 }
