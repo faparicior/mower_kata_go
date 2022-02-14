@@ -6,10 +6,10 @@ import (
 	"example.kata.local/mower/shared/domain/exceptions"
 )
 
-const description = "negative position"
-const errorSubtype = "InvalidMowerPosition"
-
 func BuildInvalidMowerPosition() error {
+	const description = "negative position"
+	const errorSubtype = "InvalidMowerPosition"
+
 	customError, err := json.Marshal(exceptions.Error{
 		Description:  description,
 		ErrorType:    exceptions.ErrorType,
