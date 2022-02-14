@@ -1,13 +1,25 @@
 package mowers
 
-import XPosition "example.kata.local/mower/mowers/valueobject"
+import (
+	"example.kata.local/mower/mowers/valueobject"
+)
 
 type Mower struct {
-	XPosition.XPosition
+	mowerId       valueobject.MowerId
+	mowerPosition valueobject.MowerPosition
 }
 
-func Build(xPosition XPosition.XPosition) Mower {
+func BuildMower(mowerId valueobject.MowerId, mowerPosition valueobject.MowerPosition) (Mower, error) {
 	return Mower{
-		xPosition,
-	}
+		mowerId:       mowerId,
+		mowerPosition: mowerPosition,
+	}, nil
+}
+
+func (value Mower) position() valueobject.MowerPosition {
+	return value.mowerPosition
+}
+
+func (value Mower) id() valueobject.MowerId {
+	return value.mowerId
 }
