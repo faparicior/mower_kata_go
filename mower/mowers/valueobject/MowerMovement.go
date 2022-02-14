@@ -1,6 +1,8 @@
 package valueobject
 
-import "errors"
+import (
+	"example.kata.local/mower/mowers/exceptions"
+)
 
 type MowerMovement struct {
 	value string
@@ -23,5 +25,5 @@ func BuildMowerMovement(value string) (MowerMovement, error) {
 		}
 	}
 
-	return MowerMovement{}, errors.New("error")
+	return MowerMovement{}, exceptions.BuildInvalidMowerMovement()
 }
