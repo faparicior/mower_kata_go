@@ -11,7 +11,7 @@ import (
 func TestYPositionShouldBeBuild(t *testing.T) {
 	const mowerPosition = 15
 
-	var yPosition, err = BuildYPosition(mowerPosition)
+	yPosition, err := BuildYPosition(mowerPosition)
 
 	if reflect.TypeOf(yPosition).String() != "valueobject.YPosition" {
 		t.Fatal(reflect.TypeOf(yPosition))
@@ -28,8 +28,8 @@ func TestYPositionShouldBeBuild(t *testing.T) {
 func TestYPositionShouldThrownExceptionForNegativeValues(t *testing.T) {
 	const invalidMowerPosition = -1
 
-	var yPosition, err = BuildYPosition(invalidMowerPosition)
-	var expectedError = exceptions.BuildInvalidMowerPosition()
+	yPosition, err := BuildYPosition(invalidMowerPosition)
+	expectedError := exceptions.BuildInvalidMowerPosition()
 
 	assert.Equal(t, YPosition{}, yPosition)
 	assert.Error(t, err)
@@ -40,8 +40,7 @@ func TestYPositionShouldSumAStepForward(t *testing.T) {
 	const position = 15
 	const step = 1
 
-	var yPosition, _ = BuildYPosition(position)
-
+	yPosition, _ := BuildYPosition(position)
 	yPosition, _ = yPosition.MoveForward(step)
 
 	assert.Equal(t, position+step, yPosition.Value())
