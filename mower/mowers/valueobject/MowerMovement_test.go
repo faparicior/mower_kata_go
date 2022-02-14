@@ -1,6 +1,7 @@
 package valueobject
 
 import (
+	"example.kata.local/mower/mowers/exceptions"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -39,8 +40,9 @@ func TestShouldAcceptValidValues(t *testing.T) {
 
 func TestShouldReturnErrorForInvalidValues(t *testing.T) {
 	mowerMovement, err := BuildMowerMovement("U")
+	expectedError := exceptions.BuildInvalidMowerMovement()
 
-	// TODO: Has to return specific error
 	assert.Equal(t, MowerMovement{}, mowerMovement)
 	assert.Error(t, err)
+	assert.EqualValues(t, expectedError, err)
 }
