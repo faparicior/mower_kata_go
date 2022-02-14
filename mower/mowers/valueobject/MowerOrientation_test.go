@@ -7,9 +7,12 @@ import (
 	"testing"
 )
 
+const orientation = "N"
+const invalidOrientation = "J"
+
 func TestMowerOrientationShouldBeBuild(t *testing.T) {
 
-	var mowerOrientation, err = BuildMowerOrientation("N")
+	var mowerOrientation, err = BuildMowerOrientation(orientation)
 
 	if reflect.TypeOf(mowerOrientation).String() != "valueobject.MowerOrientation" {
 		t.Fatal(reflect.TypeOf(mowerOrientation))
@@ -29,11 +32,11 @@ func TestMowerOrientationShouldBeBuildWithValidParameters(t *testing.T) {
 		{"W"},
 	}
 
-	for _, tt := range tests {
-		testName := fmt.Sprintf("%s", tt.orientation)
+	for _, params := range tests {
+		testName := fmt.Sprintf("%s", params.orientation)
 
 		t.Run(testName, func(t *testing.T) {
-			var _, err = BuildMowerOrientation(tt.orientation)
+			var _, err = BuildMowerOrientation(params.orientation)
 
 			assert.Nil(t, err)
 		})
@@ -41,7 +44,7 @@ func TestMowerOrientationShouldBeBuildWithValidParameters(t *testing.T) {
 }
 
 func TestShouldFailForInvalidOrientation(t *testing.T) {
-	var _, err = BuildMowerOrientation("J")
+	var _, err = BuildMowerOrientation(invalidOrientation)
 
 	assert.NotNil(t, err)
 }
