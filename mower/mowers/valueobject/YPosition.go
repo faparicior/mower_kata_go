@@ -10,7 +10,9 @@ type YPosition struct {
 }
 
 func BuildYPosition(value int) (yPosition YPosition, err error) {
-	if 0 > value {
+	const minimumYPosition = 0
+
+	if minimumYPosition > value {
 		return YPosition{}, exceptions.BuildInvalidMowerPosition()
 	}
 

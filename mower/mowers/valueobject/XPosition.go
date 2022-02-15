@@ -10,7 +10,9 @@ type XPosition struct {
 }
 
 func BuildXPosition(value int) (xPosition XPosition, err error) {
-	if 0 > value {
+	const minimumXPosition = 0
+
+	if minimumXPosition > value {
 		return XPosition{}, exceptions.BuildInvalidMowerPosition()
 	}
 
