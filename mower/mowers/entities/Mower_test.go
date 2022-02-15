@@ -1,4 +1,4 @@
-package mowers
+package entities
 
 import (
 	"example.kata.local/mower/mowers/valueobject"
@@ -16,7 +16,7 @@ func TestMowerShouldBeBuild(t *testing.T) {
 
 	mower, _ := BuildMower(mowerId, mowerPosition)
 
-	if reflect.TypeOf(mower).String() != "mowers.Mower" {
+	if reflect.TypeOf(mower).String() != "entities.Mower" {
 		t.Fatal(reflect.TypeOf(mower))
 	}
 

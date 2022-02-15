@@ -1,4 +1,4 @@
-package mowers
+package entities
 
 import (
 	"example.kata.local/mower/mowers/valueobject"
