@@ -12,6 +12,14 @@ func (value MowerMovement) Value() string {
 	return value.value
 }
 
+func (value MowerMovement) isClockWise() bool {
+	return "R" == value.value
+}
+
+func (value MowerMovement) isCounterClockWise() bool {
+	return "L" == value.value
+}
+
 func BuildMowerMovement(value string) (MowerMovement, error) {
 	var validMovements = []MowerMovement{
 		{"L"},
