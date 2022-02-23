@@ -20,6 +20,10 @@ func (value MowerMovement) isCounterClockWise() bool {
 	return "L" == value.value
 }
 
+func (value MowerMovement) isForward() bool {
+	return "F" == value.value
+}
+
 func BuildMowerMovement(value string) (MowerMovement, error) {
 	var validMovements = []MowerMovement{
 		{"L"},
