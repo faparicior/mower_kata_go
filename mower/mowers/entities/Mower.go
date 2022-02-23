@@ -16,10 +16,14 @@ func BuildMower(mowerId valueobject.MowerId, mowerPosition valueobject.MowerPosi
 	}, nil
 }
 
-func (value Mower) position() valueobject.MowerPosition {
+func (value Mower) Position() valueobject.MowerPosition {
 	return value.mowerPosition
 }
 
 func (value Mower) id() valueobject.MowerId {
 	return value.mowerId
+}
+
+func (value *Mower) Move(movement valueobject.MowerMovement) {
+	value.mowerPosition, _ = value.mowerPosition.Move(movement)
 }

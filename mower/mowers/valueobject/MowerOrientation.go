@@ -75,7 +75,7 @@ func (value MowerOrientation) AffectsYAxis() bool {
 	return getOrientationSpecs(value).affectsYAxis
 }
 
-func (value MowerOrientation) AffectsXAxis() interface{} {
+func (value MowerOrientation) AffectsXAxis() bool {
 	return getOrientationSpecs(value).affectsXAxis
 }
 
