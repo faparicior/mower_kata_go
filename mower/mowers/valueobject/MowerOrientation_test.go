@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
+	"strconv"
 	"testing"
 )
 
@@ -81,6 +82,72 @@ func TestMowerOrientationShouldApplyMovementOrientations(t *testing.T) {
 			orientation = orientation.ChangeOrientation(movement)
 
 			assert.Equal(t, params.expectedOrientation, orientation.value)
+		})
+	}
+}
+
+func TestMowerOrientationShouldEvalIfAffectsYAxis(t *testing.T) {
+	var tests = []struct {
+		orientation         string
+		expectedAffectYAxis bool
+	}{
+		{"N", true},
+		{"S", true},
+		{"E", false},
+		{"W", false},
+	}
+
+	for _, params := range tests {
+		testName := fmt.Sprintf("Orientation-%s,Expected-%s", params.orientation, strconv.FormatBool(params.expectedAffectYAxis))
+
+		t.Run(testName, func(t *testing.T) {
+			orientation, _ := BuildMowerOrientation(params.orientation)
+
+			assert.Equal(t, params.expectedAffectYAxis, orientation.AffectsYAxis())
+		})
+	}
+}
+
+func TestMowerOrientationShouldEvalIfAffectsXAxis(t *testing.T) {
+	var tests = []struct {
+		orientation         string
+		expectedAffectYAxis bool
+	}{
+		{"N", false},
+		{"S", false},
+		{"E", true},
+		{"W", true},
+	}
+
+	for _, params := range tests {
+		testName := fmt.Sprintf("Orientation-%s,Expected-%s", params.orientation, strconv.FormatBool(params.expectedAffectYAxis))
+
+		t.Run(testName, func(t *testing.T) {
+			orientation, _ := BuildMowerOrientation(params.orientation)
+
+			assert.Equal(t, params.expectedAffectYAxis, orientation.AffectsXAxis())
+		})
+	}
+}
+
+func TestMowerOrientationShouldEvalDirectionStep(t *testing.T) {
+	var tests = []struct {
+		orientation  string
+		expectedStep int
+	}{
+		{"N", 1},
+		{"E", 1},
+		{"S", -1},
+		{"W", -1},
+	}
+
+	for _, params := range tests {
+		testName := fmt.Sprintf("Orientation-%s,Expected-%d", params.orientation, params.expectedStep)
+
+		t.Run(testName, func(t *testing.T) {
+			orientation, _ := BuildMowerOrientation(params.orientation)
+
+			assert.Equal(t, params.expectedStep, orientation.StepMovement())
 		})
 	}
 }

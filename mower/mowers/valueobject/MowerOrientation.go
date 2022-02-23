@@ -10,6 +10,13 @@ type MowerOrientation struct {
 	value string
 }
 
+type enumMowerOrientation struct {
+	value         string
+	affectsYAxis  bool
+	affectsXAxis  bool
+	stepDirection int
+}
+
 func BuildMowerOrientation(value string) (MowerOrientation, error) {
 	validOrientations := validOrientations()
 
@@ -64,11 +71,23 @@ func (value MowerOrientation) ChangeOrientation(movement MowerMovement) MowerOri
 	}
 }
 
+func (value MowerOrientation) AffectsYAxis() bool {
+	return getOrientationSpecs(value).affectsYAxis
+}
+
+func (value MowerOrientation) AffectsXAxis() interface{} {
+	return getOrientationSpecs(value).affectsXAxis
+}
+
+func (value MowerOrientation) StepMovement() int {
+	return getOrientationSpecs(value).stepDirection
+}
+
 func getCurrentOrientationIndex(mowerOrientation MowerOrientation) (int, error) {
 	const invalidIndex = -1
 
 	for key, orientation := range validOrientations() {
-		if orientation == mowerOrientation {
+		if orientation.value == mowerOrientation.value {
 			return key, nil
 		}
 	}
@@ -76,11 +95,18 @@ func getCurrentOrientationIndex(mowerOrientation MowerOrientation) (int, error) 
 	return invalidIndex, errors.New("orientation not valid")
 }
 
-func validOrientations() []MowerOrientation {
-	return []MowerOrientation{
-		{"N"},
-		{"E"},
-		{"S"},
-		{"W"},
+func getOrientationSpecs(value MowerOrientation) enumMowerOrientation {
+	index, _ := getCurrentOrientationIndex(value)
+	orientations := validOrientations()
+
+	return orientations[index]
+}
+
+func validOrientations() []enumMowerOrientation {
+	return []enumMowerOrientation{
+		{"N", true, false, 1},
+		{"E", false, true, 1},
+		{"S", true, false, -1},
+		{"W", false, true, -1},
 	}
 }
