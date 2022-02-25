@@ -1,7 +1,7 @@
-package valueobject
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"reflect"
 	"testing"
 
@@ -13,7 +13,7 @@ func TestSurfaceXSizeShouldBeBuild(t *testing.T) {
 
 	surfaceXSize, err := BuildSurfaceXSize(mowerPosition)
 
-	if reflect.TypeOf(surfaceXSize).String() != "valueobject.SurfaceXSize" {
+	if reflect.TypeOf(surfaceXSize).String() != "valueobjects.SurfaceXSize" {
 		t.Fatal(reflect.TypeOf(surfaceXSize))
 	}
 

@@ -1,15 +1,14 @@
-package entities
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/valueobject"
 	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 )
 
 func TestSurfaceShouldBeBuild(t *testing.T) {
-	xSize, _ := valueobject.BuildSurfaceXSize(10)
-	ySize, _ := valueobject.BuildSurfaceYSize(10)
+	xSize, _ := BuildSurfaceXSize(10)
+	ySize, _ := BuildSurfaceYSize(10)
 
 	surface, err := BuildSurface(xSize, ySize)
 

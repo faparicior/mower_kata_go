@@ -1,7 +1,7 @@
-package valueobject
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -14,7 +14,7 @@ func TestMowerOrientationShouldBeBuild(t *testing.T) {
 
 	var mowerOrientation, err = BuildMowerOrientation(orientation)
 
-	if reflect.TypeOf(mowerOrientation).String() != "valueobject.MowerOrientation" {
+	if reflect.TypeOf(mowerOrientation).String() != "valueobjects.MowerOrientation" {
 		t.Fatal(reflect.TypeOf(mowerOrientation))
 	}
 

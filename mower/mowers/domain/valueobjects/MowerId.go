@@ -1,4 +1,4 @@
-package valueobject
+package valueobjects
 
 type MowerId struct {
 	id string

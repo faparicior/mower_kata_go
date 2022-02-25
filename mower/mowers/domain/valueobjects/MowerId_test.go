@@ -1,4 +1,4 @@
-package valueobject
+package valueobjects
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -11,7 +11,7 @@ func TestMowerIdShouldBeBuild(t *testing.T) {
 	uuidAsString := uuid.NewString()
 	mowerId, _ := BuildMowerId(uuidAsString)
 
-	if reflect.TypeOf(mowerId).String() != "valueobject.MowerId" {
+	if reflect.TypeOf(mowerId).String() != "valueobjects.MowerId" {
 		t.Fatal(reflect.TypeOf(mowerId))
 	}
 

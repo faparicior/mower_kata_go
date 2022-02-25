@@ -1,4 +1,4 @@
-package valueobject
+package valueobjects
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ func TestMowerPositionShouldBeBuild(t *testing.T) {
 
 	mowerPosition, _ := BuildMowerPosition(xPosition, yPosition, orientation)
 
-	if reflect.TypeOf(mowerPosition).String() != "valueobject.MowerPosition" {
+	if reflect.TypeOf(mowerPosition).String() != "valueobjects.MowerPosition" {
 		t.Fatal(reflect.TypeOf(xPosition))
 	}
 

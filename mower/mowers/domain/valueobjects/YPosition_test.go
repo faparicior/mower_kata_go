@@ -1,7 +1,7 @@
-package valueobject
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"reflect"
 	"testing"
 
@@ -13,7 +13,7 @@ func TestYPositionShouldBeBuild(t *testing.T) {
 
 	yPosition, err := BuildYPosition(mowerPosition)
 
-	if reflect.TypeOf(yPosition).String() != "valueobject.YPosition" {
+	if reflect.TypeOf(yPosition).String() != "valueobjects.YPosition" {
 		t.Fatal(reflect.TypeOf(yPosition))
 	}
 

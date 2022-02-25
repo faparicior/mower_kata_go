@@ -1,7 +1,7 @@
-package valueobject
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 )
 
 type MowerMovement struct {

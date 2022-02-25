@@ -1,4 +1,4 @@
-package valueobject
+package valueobjects
 
 type MowerPosition struct {
 	xMowerPosition XPosition

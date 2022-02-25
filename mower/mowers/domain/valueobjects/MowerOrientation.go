@@ -1,8 +1,8 @@
-package valueobject
+package valueobjects
 
 import (
 	"errors"
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"reflect"
 )
 

@@ -1,7 +1,7 @@
-package valueobject
+package valueobjects
 
 import (
-	"example.kata.local/mower/mowers/exceptions"
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -12,7 +12,7 @@ import (
 func TestMowerMovementShouldBeBuild(t *testing.T) {
 	mowerMovement, _ := BuildMowerMovement("L")
 
-	if reflect.TypeOf(mowerMovement).String() != "valueobject.MowerMovement" {
+	if reflect.TypeOf(mowerMovement).String() != "valueobjects.MowerMovement" {
 		t.Fatal(reflect.TypeOf(mowerMovement))
 	}
 	assert.Equal(t, "L", mowerMovement.Value())

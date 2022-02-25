@@ -1,13 +1,12 @@
 package main
 
 import (
+	"example.kata.local/mower/mowers/domain/valueobjects"
 	"fmt"
-
-	"example.kata.local/mower/mowers/valueobject"
 )
 
 func main() {
-	var position, _ = valueobject.BuildXPosition(15)
+	var position, _ = valueobjects.BuildXPosition(15)
 
 	fmt.Print(position.Value())
 }
