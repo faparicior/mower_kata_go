@@ -1,7 +1,7 @@
 package entities
 
 import (
-	valueobjects2 "example.kata.local/mower/mowers/domain/valueobjects"
+	"example.kata.local/mower/mowers/domain/valueobjects"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -11,23 +11,23 @@ import (
 var genericMower Mower
 
 func setupTest() {
-	mowerId, _ := valueobjects2.BuildMowerId(uuid.NewString())
-	xPosition, _ := valueobjects2.BuildXPosition(5)
-	yPosition, _ := valueobjects2.BuildYPosition(5)
-	orientation, _ := valueobjects2.BuildMowerOrientation("N")
+	mowerId, _ := valueobjects.BuildMowerId(uuid.NewString())
+	xPosition, _ := valueobjects.BuildXPosition(5)
+	yPosition, _ := valueobjects.BuildYPosition(5)
+	orientation, _ := valueobjects.BuildMowerOrientation("N")
 
-	mowerPosition, _ := valueobjects2.BuildMowerPosition(xPosition, yPosition, orientation)
+	mowerPosition, _ := valueobjects.BuildMowerPosition(xPosition, yPosition, orientation)
 
 	genericMower, _ = BuildMower(mowerId, mowerPosition)
 }
 
 func TestMowerShouldBeBuild(t *testing.T) {
-	mowerId, _ := valueobjects2.BuildMowerId(uuid.NewString())
-	xPosition, _ := valueobjects2.BuildXPosition(15)
-	yPosition, _ := valueobjects2.BuildYPosition(8)
-	orientation, _ := valueobjects2.BuildMowerOrientation("N")
+	mowerId, _ := valueobjects.BuildMowerId(uuid.NewString())
+	xPosition, _ := valueobjects.BuildXPosition(15)
+	yPosition, _ := valueobjects.BuildYPosition(8)
+	orientation, _ := valueobjects.BuildMowerOrientation("N")
 
-	mowerPosition, _ := valueobjects2.BuildMowerPosition(xPosition, yPosition, orientation)
+	mowerPosition, _ := valueobjects.BuildMowerPosition(xPosition, yPosition, orientation)
 
 	mower, _ := BuildMower(mowerId, mowerPosition)
 
@@ -42,8 +42,8 @@ func TestMowerShouldBeBuild(t *testing.T) {
 func TestMowerShouldBeAbleToTurnLeft(t *testing.T) {
 	setupTest()
 
-	movement, _ := valueobjects2.BuildMowerMovement("L")
-	expectedOrientation, _ := valueobjects2.BuildMowerOrientation("W")
+	movement, _ := valueobjects.BuildMowerMovement("L")
+	expectedOrientation, _ := valueobjects.BuildMowerOrientation("W")
 
 	genericMower.Move(movement)
 	position := genericMower.Position()
@@ -54,8 +54,8 @@ func TestMowerShouldBeAbleToTurnLeft(t *testing.T) {
 func TestMowerShouldBeAbleToTurnRight(t *testing.T) {
 	setupTest()
 
-	movement, _ := valueobjects2.BuildMowerMovement("R")
-	expectedOrientation, _ := valueobjects2.BuildMowerOrientation("E")
+	movement, _ := valueobjects.BuildMowerMovement("R")
+	expectedOrientation, _ := valueobjects.BuildMowerOrientation("E")
 
 	genericMower.Move(movement)
 	position := genericMower.Position()
@@ -66,9 +66,9 @@ func TestMowerShouldBeAbleToTurnRight(t *testing.T) {
 func TestMowerShouldBeAbleToMoveForward(t *testing.T) {
 	setupTest()
 
-	movement, _ := valueobjects2.BuildMowerMovement("F")
-	expectedYPosition, _ := valueobjects2.BuildYPosition(6)
-	expectedXPosition, _ := valueobjects2.BuildXPosition(5)
+	movement, _ := valueobjects.BuildMowerMovement("F")
+	expectedYPosition, _ := valueobjects.BuildYPosition(6)
+	expectedXPosition, _ := valueobjects.BuildXPosition(5)
 
 	genericMower.Move(movement)
 	position := genericMower.Position()
