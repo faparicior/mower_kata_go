@@ -12,7 +12,7 @@ func TestSurfaceShouldBeBuild(t *testing.T) {
 
 	surface, err := BuildSurface(xSize, ySize)
 
-	if reflect.TypeOf(surface).String() != "entities.Surface" {
+	if reflect.TypeOf(surface).String() != "valueobjects.Surface" {
 		t.Fatal(reflect.TypeOf(surface))
 	}
 
