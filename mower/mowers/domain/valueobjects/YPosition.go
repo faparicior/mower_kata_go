@@ -23,8 +23,8 @@ func (yPosition YPosition) Value() int {
 	return yPosition.value
 }
 
-func (yPosition YPosition) MoveForward(step int) (this YPosition, err error) {
+func (yPosition YPosition) MoveForward(step int) (returnYPosition YPosition, err error) {
 	var newPosition = yPosition.value + step
 
-	return YPosition{value: newPosition}, nil
+	return BuildYPosition(newPosition)
 }

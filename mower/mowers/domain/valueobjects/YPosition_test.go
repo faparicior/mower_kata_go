@@ -45,3 +45,16 @@ func TestYPositionShouldSumAStepForward(t *testing.T) {
 
 	assert.Equal(t, position+step, yPosition.Value())
 }
+
+func TestYPositionShouldFailForNegativeValuesOnStepForward(t *testing.T) {
+	const position = 0
+	const step = -1
+	expectedError := exceptions.BuildInvalidMowerPosition()
+
+	yPosition, _ := BuildYPosition(position)
+	yPosition, err := yPosition.MoveForward(step)
+
+	assert.Equal(t, YPosition{}, yPosition)
+	assert.Error(t, err)
+	assert.EqualValues(t, expectedError, err)
+}

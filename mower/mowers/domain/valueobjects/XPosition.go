@@ -26,5 +26,5 @@ func (xPosition XPosition) Value() int {
 func (xPosition XPosition) MoveForward(step int) (this XPosition, err error) {
 	var newPosition = xPosition.value + step
 
-	return XPosition{value: newPosition}, nil
+	return BuildXPosition(newPosition)
 }
