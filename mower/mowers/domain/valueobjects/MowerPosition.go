@@ -30,14 +30,23 @@ func (value *MowerPosition) Move(movement MowerMovement) (MowerPosition, error) 
 
 	if movement.isForward() {
 		if value.Orientation().AffectsYAxis() {
-			yPosition, _ := value.YPosition().MoveForward(value.Orientation().StepMovement())
+			yPosition, err := value.YPosition().MoveForward(value.Orientation().StepMovement())
+
+			if nil != err {
+				return MowerPosition{}, err
+			}
 			return BuildMowerPosition(value.XPosition(), yPosition, value.Orientation())
 		}
 		if value.Orientation().AffectsXAxis() {
-			xPosition, _ := value.XPosition().MoveForward(value.Orientation().StepMovement())
+			xPosition, err := value.XPosition().MoveForward(value.Orientation().StepMovement())
+
+			if nil != err {
+				return MowerPosition{}, err
+			}
 			return BuildMowerPosition(xPosition, value.YPosition(), value.Orientation())
 		}
 	}
+
 	newOrientation := value.Orientation().ChangeOrientation(movement)
 	return BuildMowerPosition(value.XPosition(), value.YPosition(), newOrientation)
 }

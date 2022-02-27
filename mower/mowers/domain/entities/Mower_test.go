@@ -1,7 +1,9 @@
 package entities
 
 import (
+	"example.kata.local/mower/mowers/domain/exceptions"
 	"example.kata.local/mower/mowers/domain/valueobjects"
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -9,12 +11,17 @@ import (
 )
 
 var genericMower Mower
+var genericSurface valueobjects.Surface
 
 func setupTest() {
 	mowerId, _ := valueobjects.BuildMowerId(uuid.NewString())
 	xPosition, _ := valueobjects.BuildXPosition(5)
 	yPosition, _ := valueobjects.BuildYPosition(5)
 	orientation, _ := valueobjects.BuildMowerOrientation("N")
+
+	xSize, _ := valueobjects.BuildSurfaceXSize(5)
+	ySize, _ := valueobjects.BuildSurfaceYSize(5)
+	genericSurface, _ = valueobjects.BuildSurface(xSize, ySize)
 
 	mowerPosition, _ := valueobjects.BuildMowerPosition(xPosition, yPosition, orientation)
 
@@ -45,7 +52,7 @@ func TestMowerShouldBeAbleToTurnLeft(t *testing.T) {
 	movement, _ := valueobjects.BuildMowerMovement("L")
 	expectedOrientation, _ := valueobjects.BuildMowerOrientation("W")
 
-	genericMower.Move(movement)
+	_ = genericMower.Move(movement, genericSurface)
 	position := genericMower.Position()
 
 	assert.Equal(t, expectedOrientation, position.Orientation())
@@ -57,7 +64,7 @@ func TestMowerShouldBeAbleToTurnRight(t *testing.T) {
 	movement, _ := valueobjects.BuildMowerMovement("R")
 	expectedOrientation, _ := valueobjects.BuildMowerOrientation("E")
 
-	genericMower.Move(movement)
+	_ = genericMower.Move(movement, genericSurface)
 	position := genericMower.Position()
 
 	assert.Equal(t, expectedOrientation, position.Orientation())
@@ -70,7 +77,7 @@ func TestMowerShouldBeAbleToMoveForward(t *testing.T) {
 	expectedYPosition, _ := valueobjects.BuildYPosition(6)
 	expectedXPosition, _ := valueobjects.BuildXPosition(5)
 
-	genericMower.Move(movement)
+	_ = genericMower.Move(movement, genericSurface)
 	position := genericMower.Position()
 
 	assert.Equal(t, expectedYPosition, position.YPosition())
@@ -78,5 +85,39 @@ func TestMowerShouldBeAbleToMoveForward(t *testing.T) {
 }
 
 func TestMowerShouldFailIfGoesOutOfBounds(t *testing.T) {
-	assert.True(t, false)
+	setupTest()
+
+	uuidAsString := uuid.NewString()
+
+	var tests = []struct {
+		orientation string
+		xPosition   int
+		yPosition   int
+	}{
+		{"N", 5, 5},
+		{"S", 5, 0},
+		{"E", 5, 5},
+		{"W", 0, 5},
+	}
+
+	for _, params := range tests {
+		testName := fmt.Sprintf("Orientation-%s,xPosition-%d,yPosition-%d", params.orientation, params.xPosition, params.yPosition)
+
+		t.Run(testName, func(t *testing.T) {
+			orientation, _ := valueobjects.BuildMowerOrientation(params.orientation)
+			xPosition, _ := valueobjects.BuildXPosition(params.xPosition)
+			yPosition, _ := valueobjects.BuildYPosition(params.yPosition)
+
+			position, _ := valueobjects.BuildMowerPosition(xPosition, yPosition, orientation)
+			mowerId, _ := valueobjects.BuildMowerId(uuidAsString)
+
+			mower, _ := BuildMower(mowerId, position)
+			movement, _ := valueobjects.BuildMowerMovement("F")
+
+			err := mower.Move(movement, genericSurface)
+
+			assert.Error(t, err)
+			assert.Equal(t, exceptions.BuildMowerOutOfBoundsError(), err)
+		})
+	}
 }
