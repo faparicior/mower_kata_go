@@ -3,6 +3,7 @@ package entities
 import (
 	"example.kata.local/mower/mowers/domain/exceptions"
 	"example.kata.local/mower/mowers/domain/valueobjects"
+	"strconv"
 )
 
 type Mower struct {
@@ -19,6 +20,14 @@ func BuildMower(mowerId valueobjects.MowerId, mowerPosition valueobjects.MowerPo
 
 func (value Mower) Position() valueobjects.MowerPosition {
 	return value.mowerPosition
+}
+
+func (value Mower) PositionAsString() string {
+	position := value.Position()
+
+	return strconv.Itoa(position.XPosition().Value()) +
+		" " + strconv.Itoa(position.YPosition().Value()) +
+		" " + position.Orientation().Value()
 }
 
 func (value Mower) id() valueobjects.MowerId {

@@ -11,3 +11,7 @@ type Instructions struct {
 	surface      string
 	instructions []string
 }
+
+func (instructions Instructions) CountMowers() int {
+	return len(instructions.instructions) / 2
+}

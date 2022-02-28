@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestMoveOwnersCommandShouldBeBuild(t *testing.T) {
+func TestMoveMowersCommandShouldBeBuild(t *testing.T) {
 	moveMowersCommand := BuildMoveMowersCommand("filename")
 
 	if reflect.TypeOf(moveMowersCommand).String() != "movemowers.MoveMowersCommand" {
