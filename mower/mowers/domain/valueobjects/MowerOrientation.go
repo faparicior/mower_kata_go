@@ -29,6 +29,10 @@ func BuildMowerOrientation(value string) (MowerOrientation, error) {
 	return MowerOrientation{}, exceptions.BuildInvalidMowerOrientation()
 }
 
+func (value MowerOrientation) Value() string {
+	return value.value
+}
+
 func (value MowerOrientation) ChangeOrientation(movement MowerMovement) MowerOrientation {
 	const arrayLengthCompensation int = 1
 	const firstElement int = 0
