@@ -1,7 +1,7 @@
 package main
 
 import (
-	"example.kata.local/mower/mowers/ui"
+	"example.kata.local/mower/internal/mowers/ui"
 	"flag"
 	"os"
 )

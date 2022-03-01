@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"example.kata.local/mower/mowers/ui"
+	"example.kata.local/mower/internal/mowers/ui"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
