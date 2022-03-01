@@ -22,8 +22,7 @@ func MoveMowersHandle(command MoveMowersCommand) MoveMowersResponse {
 		surface, _ := instructions.Surface()
 
 		for _, movement := range movements {
-			uniqueMovement, _ := valueobjects.BuildMowerMovement(movement)
-			_ = mower.Move(uniqueMovement, surface)
+			_ = mower.Move(movement, surface)
 		}
 
 		result += mower.PositionAsString() + "\n"

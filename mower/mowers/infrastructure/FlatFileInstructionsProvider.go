@@ -9,67 +9,66 @@ import (
 	"strings"
 )
 
-func BuildFlatFileInstructionsProvider() Instructions {
-	return Instructions{
-		surface:      "",
-		instructions: nil,
-	}
+type FlatFileInstructionsProvider struct {
+	filename  string
+	surface   string
+	positions []string
+	movements []string
 }
 
-func (instructions Instructions) Load(filename string) (Instructions, error) {
+func BuildFlatFileInstructionsProvider() FlatFileInstructionsProvider {
+	return FlatFileInstructionsProvider{}
+}
+
+func (provider FlatFileInstructionsProvider) Load(filename string) (FlatFileInstructionsProvider, error) {
+	var surface string
+
 	csvFile, err := os.Open(filename)
+
 	if err != nil {
 		fmt.Println(fmt.Errorf("error opening file: %v", err))
-		return Instructions{}, err
+		return FlatFileInstructionsProvider{}, err
 	}
 
 	reader := bufio.NewScanner(csvFile)
-	err = readSurface(reader, &instructions)
+
+	surface, err = readSurface(reader)
 	if err != nil {
-		return Instructions{}, err
+		return FlatFileInstructionsProvider{}, err
 	}
 
-	for reader.Scan() {
-		instructions.instructions = append(instructions.instructions, reader.Text())
-	}
-	if err := reader.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input for Instructions:", err)
-		return Instructions{}, err
+	positions, movements, instructionsProvider, err := readPositionsAndMovements(reader)
+
+	if err != nil {
+		return instructionsProvider, err
 	}
 
-	return instructions, nil
+	return FlatFileInstructionsProvider{
+		filename:  filename,
+		surface:   surface,
+		positions: positions,
+		movements: movements,
+	}, nil
 }
 
-func readSurface(reader *bufio.Scanner, instructions *Instructions) error {
-	reader.Scan()
-	if err := reader.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input for Surface instructions:", err)
-		return err
-	}
+func (provider FlatFileInstructionsProvider) Surface() (valueobjects.Surface, error) {
+	surfaceAsArray := strings.Split(provider.surface, " ")
+	value, _ := strconv.Atoi(surfaceAsArray[0])
+	xSize, _ := valueobjects.BuildSurfaceXSize(value)
+	value, _ = strconv.Atoi(surfaceAsArray[1])
+	ySize, _ := valueobjects.BuildSurfaceYSize(value)
 
-	instructions.surface = reader.Text()
+	surface, _ := valueobjects.BuildSurface(xSize, ySize)
 
-	return nil
+	return surface, nil
 }
 
-func (instructions Instructions) Surface() (valueobjects.Surface, error) {
-	surface := strings.Split(instructions.surface, " ")
-
-	//TODO: Validation to assure two values
-	value, _ := strconv.Atoi(surface[0])
-	xSurface, _ := valueobjects.BuildSurfaceXSize(value)
-	value, _ = strconv.Atoi(surface[1])
-	ySurface, _ := valueobjects.BuildSurfaceYSize(value)
-
-	return valueobjects.BuildSurface(xSurface, ySurface)
-}
-
-func (instructions Instructions) MowerPosition(index int) (valueobjects.MowerPosition, error) {
-	const orientationIndex int = 2
+func (provider *FlatFileInstructionsProvider) MowerPosition(index int) (valueobjects.MowerPosition, error) {
 	const xPositionIndex int = 0
 	const yPositionIndex int = 1
+	const orientationIndex int = 2
 
-	position := strings.Split(instructions.instructions[realIndex(index)], " ")
+	position := strings.Split(provider.positions[index], " ")
 
 	value, _ := strconv.Atoi(position[xPositionIndex])
 	xPosition, _ := valueobjects.BuildXPosition(value)
@@ -80,17 +79,45 @@ func (instructions Instructions) MowerPosition(index int) (valueobjects.MowerPos
 	return valueobjects.BuildMowerPosition(xPosition, yPosition, orientation)
 }
 
-func (instructions Instructions) MowerMovements(index int) []string {
-	return strings.Split(instructions.instructions[realIndex(index)+1], "")
-}
+func (provider *FlatFileInstructionsProvider) MowerMovements(index int) []valueobjects.MowerMovement {
+	movementsAsArray := strings.Split(provider.movements[index], "")
 
-func realIndex(index int) int {
-	const indexCompensation int = 1
-	const firstElement int = 0
+	var mowerMovements []valueobjects.MowerMovement
 
-	if firstElement == index {
-		return 0
+	for _, movement := range movementsAsArray {
+		mowerMovement, _ := valueobjects.BuildMowerMovement(movement)
+		mowerMovements = append(mowerMovements, mowerMovement)
 	}
 
-	return index + indexCompensation
+	return mowerMovements
+}
+
+func (provider *FlatFileInstructionsProvider) CountMowers() int {
+	return len(provider.positions)
+}
+
+func readPositionsAndMovements(reader *bufio.Scanner) ([]string, []string, FlatFileInstructionsProvider, error) {
+	var positions []string
+	var movements []string
+
+	for reader.Scan() {
+		positions = append(positions, reader.Text())
+		reader.Scan()
+		movements = append(movements, reader.Text())
+	}
+	if err := reader.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "reading standard input for Instructions:", err)
+		return nil, nil, FlatFileInstructionsProvider{}, err
+	}
+	return positions, movements, FlatFileInstructionsProvider{}, nil
+}
+
+func readSurface(reader *bufio.Scanner) (string, error) {
+	reader.Scan()
+	if err := reader.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "reading standard input for Surface instructions:", err)
+		return "", err
+	}
+
+	return reader.Text(), nil
 }
