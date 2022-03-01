@@ -1,6 +1,8 @@
 package domain
 
-import "example.kata.local/mower/mowers/domain/valueobjects"
+import (
+	"example.kata.local/mower/mowers/domain/valueobjects"
+)
 
 type InstructionsProvider interface {
 	Surface() (valueobjects.Surface, error)
