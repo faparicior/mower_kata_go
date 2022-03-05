@@ -9,7 +9,7 @@ import (
 
 func TestMoveMowersUseCaseShouldProcessInputFileAndOutputResults(t *testing.T) {
 	var output bytes.Buffer
-	args := []string{"mowers/infrastructure/testdata/instructions.txt"}
+	args := []string{"internal/mowers/infrastructure/testdata/instructions.txt"}
 
 	ui.Cmd(&output, args)
 
